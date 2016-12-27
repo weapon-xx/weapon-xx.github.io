@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>跨域请求的实现 | Hexo</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="weapon-xx,前端,后端,设计,nodejs,JavaScript,ruby" />
+  
+
+  <meta name="description" content="什么是跨域？同源策略是由Netscape提出的著名安全策略，是浏览器最核心、基本的安全功能,它限制了一个源(origin)中加载文本或者脚本与来自其他源(origin)中资源的交互方式，所谓的同源就是指协议、域名、端口相同。当浏览器执行一个脚本时会检查是否同源，只有同源的脚本才会执行，如果不同源即为跨域
+跨域的几种方式在项目中可能会碰到在一个域名下请求另外一个域名的资源，下面我们来探讨下跨域的几种">
+<meta property="og:type" content="article">
+<meta property="og:title" content="跨域请求的实现">
+<meta property="og:url" content="http://yoursite.com/2016/09/02/跨域请求几种方式/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="什么是跨域？同源策略是由Netscape提出的著名安全策略，是浏览器最核心、基本的安全功能,它限制了一个源(origin)中加载文本或者脚本与来自其他源(origin)中资源的交互方式，所谓的同源就是指协议、域名、端口相同。当浏览器执行一个脚本时会检查是否同源，只有同源的脚本才会执行，如果不同源即为跨域
+跨域的几种方式在项目中可能会碰到在一个域名下请求另外一个域名的资源，下面我们来探讨下跨域的几种">
+<meta property="og:updated_time" content="2016-12-27T12:04:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="跨域请求的实现">
+<meta name="twitter:description" content="什么是跨域？同源策略是由Netscape提出的著名安全策略，是浏览器最核心、基本的安全功能,它限制了一个源(origin)中加载文本或者脚本与来自其他源(origin)中资源的交互方式，所谓的同源就是指协议、域名、端口相同。当浏览器执行一个脚本时会检查是否同源，只有同源的脚本才会执行，如果不同源即为跨域
+跨域的几种方式在项目中可能会碰到在一个域名下请求另外一个域名的资源，下面我们来探讨下跨域的几种">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=07a1c304" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ab70e14e629306b3d936dd0892b7714b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是跨域？"><span class="toc-text">什么是跨域？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#跨域的几种方式"><span class="toc-text">跨域的几种方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、jsonp"><span class="toc-text">1、jsonp</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、CORS"><span class="toc-text">2、CORS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、服务器跨域"><span class="toc-text">3、服务器跨域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、postmessage跨域"><span class="toc-text">4、postmessage跨域</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-跨域请求几种方式" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">跨域请求的实现</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.09.02</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Weapon-x</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/前端/">前端</a> / <a class="article-category-link" href="/categories/前端/node/">node</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="weapon-xx.github.io/2016/09/02/跨域请求几种方式/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h3 id="什么是跨域？"><a href="#什么是跨域？" class="headerlink" title="什么是跨域？"></a>什么是跨域？</h3><p>同源策略是由Netscape提出的著名安全策略，是浏览器最核心、基本的安全功能,它限制了一个源(origin)中加载文本或者脚本与来自其他源(origin)中资源的交互方式<br>，所谓的同源就是指协议、域名、端口相同。<br>当浏览器执行一个脚本时会检查是否同源，只有同源的脚本才会执行，如果不同源即为跨域</p>
+<h3 id="跨域的几种方式"><a href="#跨域的几种方式" class="headerlink" title="跨域的几种方式"></a>跨域的几种方式</h3><p>在项目中可能会碰到在一个域名下请求另外一个域名的资源，下面我们来探讨下跨域的几种实现方式</p>
+<h4 id="1、jsonp"><a href="#1、jsonp" class="headerlink" title="1、jsonp"></a>1、jsonp</h4><p>最常见的一种跨域方式，其背后原理就是利用了script标签不受同源策略的限制，在页面中动态插入了script，script标签的src属性就是后端api接口的地址，并且以get的方式将前端回调处理函数名称告诉后端，后端在响应请求时会将回调返还，并且将数据以参数的形式传递回去。</p>
+<p>前端:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//http://127.0.0.1:8888/jsonp.html</span></div><div class="line"><span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</div><div class="line">      script.src = <span class="string">'http://127.0.0.1:2333/jsonpHandler?callback=_callback'</span></div><div class="line">      <span class="built_in">document</span>.body.appendChild(script);      <span class="comment">//插入script标签</span></div><div class="line">      <span class="comment">//回调处理函数 _callback</span></div><div class="line">      <span class="keyword">var</span> _callback = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">          <span class="keyword">for</span>(key <span class="keyword">in</span> obj)&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'key: '</span> + key +<span class="string">' value: '</span> + obj[key]);</div><div class="line">          &#125;</div><div class="line">      &#125;</div></pre></td></tr></table></figure></p>
+<p>后端:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//http://127.0.0.1:2333/jsonpHandler</span></div><div class="line">app.get(<span class="string">'/jsonpHandler'</span>, (req,res) =&gt; &#123;</div><div class="line">  <span class="keyword">let</span> callback = req.query.callback;</div><div class="line">  <span class="keyword">let</span> obj = &#123;</div><div class="line">    <span class="attr">type</span> : <span class="string">'jsonp'</span>,</div><div class="line">    <span class="attr">name</span> : <span class="string">'weapon-x'</span></div><div class="line">  &#125;;</div><div class="line">  res.writeHead(<span class="number">200</span>, &#123;<span class="string">"Content-Type"</span>: <span class="string">"text/javascript"</span>&#125;);</div><div class="line">  res.end(callback + <span class="string">'('</span> + <span class="built_in">JSON</span>.stringify(obj) + <span class="string">')'</span>);</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<h4 id="2、CORS"><a href="#2、CORS" class="headerlink" title="2、CORS"></a>2、CORS</h4><p>Cross-Origin Resource Sharing(跨域资源共享)是一种允许当前域（origin）的资源（比如html/js/web service）被其他域（origin）的脚本请求访问的机制。<br>当使用XMLHttpRequest发送请求时，浏览器如果发现违反了同源策略就会自动加上一个请求头:origin,后端在接受到请求后确定响应后会在Response Headers中加入一个属性:Access-Control-Allow-Origin,值就是发起请求的源地址(<a href="http://127.0.0.1:8888)，浏览器得到响应会进行判断Access-Control-Allow-Origin的值是否和当前的地址相同，只有匹配成功后才进行响应处理。" target="_blank" rel="external">http://127.0.0.1:8888)，浏览器得到响应会进行判断Access-Control-Allow-Origin的值是否和当前的地址相同，只有匹配成功后才进行响应处理。</a></p>
+<p>现代浏览器中和移动端都支持CORS（除了opera mini），IE下需要8+</p>
+<p>前端:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//http://127.0.0.1:8888/cors.html</span></div><div class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">xhr.onload = <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> _data = <span class="built_in">JSON</span>.parse(data.target.responseText)</div><div class="line">  <span class="keyword">for</span>(key <span class="keyword">in</span> _data)&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'key: '</span> + key +<span class="string">' value: '</span> + _data[key]);</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line">xhr.open(<span class="string">'POST'</span>,<span class="string">'http://127.0.0.1:2333/cors'</span>,<span class="literal">true</span>);</div><div class="line">xhr.setRequestHeader(<span class="string">'Content-Type'</span>,<span class="string">'application/x-www-form-urlencoded'</span>);</div><div class="line">xhr.send();</div></pre></td></tr></table></figure></p>
+<p>后端:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//http://127.0.0.1:2333/cors</span></div><div class="line">app.post(<span class="string">'/cors'</span>,(req,res) =&gt; &#123;</div><div class="line">  <span class="keyword">if</span>(req.headers.origin)&#123;</div><div class="line">    res.writeHead(<span class="number">200</span>,&#123;</div><div class="line">      <span class="string">"Content-Type"</span>: <span class="string">"text/html; charset=UTF-8"</span>,</div><div class="line">      <span class="string">"Access-Control-Allow-Origin"</span>:<span class="string">'http://127.0.0.1:8888'</span></div><div class="line">    &#125;);</div><div class="line">    <span class="keyword">let</span> people = &#123;</div><div class="line">      <span class="attr">type</span> : <span class="string">'cors'</span>,</div><div class="line">      <span class="attr">name</span> : <span class="string">'weapon-x'</span></div><div class="line">    &#125;</div><div class="line">    res.end(<span class="built_in">JSON</span>.stringify(people));</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>可以在开发者工具里面看到请求的详细信息，并且在控制台也可以看到返回的数据输出<br></p>
+<h4 id="3、服务器跨域"><a href="#3、服务器跨域" class="headerlink" title="3、服务器跨域"></a>3、服务器跨域</h4><p>在前后端分离的项目中可以借助服务器实现跨域，具体做法是：前端向本地服务器发送请求，本地服务器代替前端再向api服务器接口发送请求进行服务器间通信，本地服务器其实就是个中转站的角色，再将响应的数据返回给前端，下面用node.js做一个示例</p>
+<p>前端:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//http://127.0.0.1:8888/server</span></div><div class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">    xhr.onload = <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">      <span class="keyword">var</span> _data = <span class="built_in">JSON</span>.parse(data.target.responseText)</div><div class="line">      <span class="keyword">for</span>(key <span class="keyword">in</span> _data)&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'key: '</span> + key +<span class="string">' value: '</span> + _data[key]);</div><div class="line">      &#125;</div><div class="line">    &#125;;</div><div class="line">    xhr.open(<span class="string">'POST'</span>,<span class="string">'http://127.0.0.1:8888/feXhr'</span>,<span class="literal">true</span>);  <span class="comment">//向本地服务器发送请求   </span></div><div class="line">    xhr.setRequestHeader(<span class="string">'Content-Type'</span>,<span class="string">'application/x-www-form-urlencoded'</span>);</div><div class="line">    xhr.send(<span class="string">"url=http://127.0.0.1:2333/beXhr"</span>);    <span class="comment">//以参数形式告知需要请求的后端接口</span></div></pre></td></tr></table></figure></p>
+<p>后端:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//http://127.0.0.1:8888/feXhr</span></div><div class="line">app.post(<span class="string">'/feXhr'</span>,(req,res) =&gt; &#123;</div><div class="line">  <span class="keyword">let</span> url  = req.body.url;</div><div class="line">  superagent.get(url)           <span class="comment">//使用superagent想api接口发送请求</span></div><div class="line">      .end(<span class="function"><span class="keyword">function</span> (<span class="params">err,docs</span>) </span>&#123;</div><div class="line">          <span class="keyword">if</span>(err)&#123;</div><div class="line">              <span class="built_in">console</span>.log(err);</div><div class="line">              <span class="keyword">return</span></div><div class="line">          &#125;</div><div class="line">          res.end(docs.res.text); <span class="comment">//返回到前端</span></div><div class="line">      &#125;)</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">//http://127.0.0.1:2333/beXhr</span></div><div class="line">app.get(<span class="string">'/beXhr'</span>,(req,res) =&gt; &#123;</div><div class="line">  <span class="keyword">let</span> obj = &#123;</div><div class="line">    <span class="attr">type</span> : <span class="string">'superagent'</span>,</div><div class="line">    <span class="attr">name</span> : <span class="string">'weapon-x'</span></div><div class="line">  &#125;;</div><div class="line">  res.writeHead(<span class="number">200</span>, &#123;<span class="string">"Content-Type"</span>: <span class="string">"text/javascript"</span>&#125;);</div><div class="line">  res.end(<span class="built_in">JSON</span>.stringify(obj));     <span class="comment">//响应</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<h4 id="4、postmessage跨域"><a href="#4、postmessage跨域" class="headerlink" title="4、postmessage跨域"></a>4、postmessage跨域</h4><p>在HTML5中新增了postMessage方法，postMessage可以实现跨文档消息传输（Cross Document Messaging），Internet Explorer 8, Firefox 3, Opera 9, Chrome 3和 Safari 4都支持postMessage。<br>该方法可以通过绑定window的message事件来监听发送跨文档消息传输内容。<br>使用postMessage实现跨域的话原理就类似于jsonp，动态插入iframe标签，再从iframe里面拿回数据<br>，私认为用作跨页面通信更加适合</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>当然还有其他实现跨域的方式比如在ie8、9下XDR跨域方案，flash方案，以上是一些常用的跨域方案，都各有利弊，比如：jsonp只能发送get请求、cors会忽略cookie、服务器跨域需要另起服务器等等、postMessage更适合用于跨页面通信，大家可以根据自己项目需求选择适合的解决方案，如果对于跨域还有其他看法或者文中出现错误，欢迎大家留言：）</p>
+<p>参考文献:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS" target="_blank" rel="external">HTTP access control</a></li>
+<li><a href="http://www.cnblogs.com/rainman/archive/2011/02/20/1959325.html" target="_blank" rel="external">JavaScript跨域总结与解决办法</a></li>
+<li><a href="http://www.cnblogs.com/dojo-lzz/p/4265637.html" target="_blank" rel="external">探讨跨域请求资源的几种方式</a></li>
+<li><a href="http://blog.csdn.net/suhenhappy/article/details/18043241" target="_blank" rel="external">AJAX POST&amp;跨域 解决方案 - CORS</a></li>
+</ul>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2016/08/23/使用hexo和github搭建博客-md/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'weapon-xx';
+    
+    var disqus_url = 'http://yoursite.com/2016/09/02/跨域请求几种方式/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//weapon-xx.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
