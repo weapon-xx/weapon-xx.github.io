@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 
 
-  <html class="light page-archives">
+  <html class="light page-post">
 
 
 <head>
   <meta charset="utf-8">
   
-  <title>Archives | Hexo</title>
+  <title>vue源码分析:mvvm的实现原理 | Hexo</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,12 +15,16 @@
     <meta name="keywords" content="weapon-xx,前端,后端,设计,nodejs,JavaScript,ruby" />
   
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="前言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue源码分析:mvvm的实现原理">
+<meta property="og:url" content="http://yoursite.com/2016/12/28/vue源码分析-mvvm的实现原理/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言">
+<meta property="og:updated_time" content="2016-12-28T01:37:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="vue源码分析:mvvm的实现原理">
+<meta name="twitter:description" content="前言">
 
   
 
@@ -66,17 +70,8 @@
     <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
   
 
-  <div class="content content-archive">
-  <div class="page-header">
-
-  
-    <div class="breadcrumb">
-      <div class="location">博客</div>
-      <i class="icon-location"></i>
-    </div>
-  
-
-  
+  <div class="post-header CENTER">
+   
   <div class="toolbox">
     <a class="toolbox-entry" href="/">
       <span class="toolbox-entry-text">盒子</span>
@@ -144,67 +139,86 @@
   </div>
 
 
-
-  <div class="box-blog-info">
-    <a class="avatar" href="/">
-      <img src="/images/avatar.jpg" alt="" />
-    </a>
-    <div class="info">
-      <h3 class="name" style="font-family: calligraffittiregular">
-        Weapon-xx&#39;s blog
-      </h3>
-      <div class="slogan">
-        Break thing &amp; move fast.
-      </div>
-    </div>
-  </div>
-
 </div>
 
 
-  <div class="post-list-box archive-body">
-    <ul class="list-post">  <li class="item-year item item-title item-title-1">
-    <a href="/archives/2016" class="text-year">
-      2016
-      <i class="icon-hou"></i>
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-vue源码分析-mvvm的实现原理" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">vue源码分析:mvvm的实现原理</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.12.28</span>
+      </span>
+
       
-    </a>
-  </li>
-<li class="item-post item">
-  <span class="post-date">12-28</span>
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Weapon-x</span>
+        </span>
+      
 
-  
-  <a class="post-title" href="/2016/12/28/vue源码分析-mvvm的实现原理/">vue源码分析:mvvm的实现原理</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">09-02</span>
-
-  
-  <a class="post-title" href="/2016/09/02/跨域请求几种方式/">跨域请求的实现</a>
+      
 
 
-</li>
-<li class="item-post item">
-  <span class="post-date">08-23</span>
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="weapon-xx.github.io/2016/12/28/vue源码分析-mvvm的实现原理/#disqus_thread"></a>
+        </span>
+      
 
-  
-  <a class="post-title" href="/2016/08/23/使用hexo和github搭建博客-md/">使用hexo和github搭建博客</a>
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
 
+      
+      
+    </div>
+  </header>
 
-</li>
-</ul>
-  </div>
-
-  <div class="archive-footer">
+  <div class="article-content">
     
-
+      <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3>
+    
   </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2016/09/02/跨域请求几种方式/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
 </div>
 
 
-
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
 
 
 
@@ -281,6 +295,40 @@
 </div>
 
 
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'weapon-xx';
+    
+    var disqus_url = 'http://yoursite.com/2016/12/28/vue源码分析-mvvm的实现原理/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//weapon-xx.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+  </div>
 
   
 
