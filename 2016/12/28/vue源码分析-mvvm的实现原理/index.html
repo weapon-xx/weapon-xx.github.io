@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="前言Vue或者其他的mvvm框架都有共同的功能，就是数据的双向绑定，在model更改了数据可以立刻更新到视图上。这种做法跟之前jquery的实现比较，就是让我们从繁琐的dom操作中抽身出来，而是专注于业务逻辑的处理。
 其实背后主要原理就是对象属性的访问器劫持（Object.defineProperty）和观察/订阅者模式 ，当更改对象属性的时候通知订阅者更新视图。">
-<meta property="og:updated_time" content="2016-12-28T01:55:03.000Z">
+<meta property="og:updated_time" content="2016-12-28T01:55:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue源码分析:mvvm的实现原理">
 <meta name="twitter:description" content="前言Vue或者其他的mvvm框架都有共同的功能，就是数据的双向绑定，在model更改了数据可以立刻更新到视图上。这种做法跟之前jquery的实现比较，就是让我们从繁琐的dom操作中抽身出来，而是专注于业务逻辑的处理。
@@ -174,11 +174,6 @@
 
 
       
-        <span>
-          <i class="icon-comment"></i>
-          <a href="weapon-xx.github.io/2016/12/28/vue源码分析-mvvm的实现原理/#disqus_thread"></a>
-        </span>
-      
 
       
       <i class="fa fa-eye"></i> 
@@ -188,6 +183,9 @@
         </span>
       
 
+      
+        <i class="icon-comment"></i> 
+        <span class="ds-thread-count" data-thread-key="post-vue源码分析-mvvm的实现原理"><i class="fa fa-spinner fa-spin"></i></span> 条评论
       
       
     </div>
@@ -304,33 +302,29 @@
   
       <div class="fexo-comments comments-post">
     
-  <section class="disqus-comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
+
+    
+  <section class="duoshuo-comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-vue源码分析-mvvm的实现原理" 
+      data-title="Vue源码分析:mvvm的实现原理" data-url="http://yoursite.com/2016/12/28/vue源码分析-mvvm的实现原理/index.html"></div>
+    <!-- 多说评论框 end -->
   </section>
 
-  <script>
-    var disqus_shortname = 'weapon-xx';
-    
-    var disqus_url = 'http://yoursite.com/2016/12/28/vue源码分析-mvvm的实现原理/';
-    
-    (function(){
-      var dsq = document.createElement('script');
-      dsq.type = 'text/javascript';
-      dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
+
+
+
+  <script type="text/javascript">
+  var duoshuoQuery = {short_name:"weapon-xx"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
   </script>
-
-  <script id="dsq-count-scr" src="//weapon-xx.disqus.com/count.js" async></script>
-
-
-
-    
-
-
 
 
   </div>
