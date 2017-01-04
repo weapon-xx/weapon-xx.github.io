@@ -45,7 +45,7 @@ console.log(&apos;hello there&apos;)$(&quot;&amp;lt;div class=&apos;box&apos;&am
 避免出现没使用的变量
 
 function myFunction">
-<meta property="og:updated_time" content="2017-01-04T02:57:44.000Z">
+<meta property="og:updated_time" content="2017-01-04T09:37:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript标准风格">
 <meta name="twitter:description" content="学习一种风格最好的方式就是将它应用在你的代码上。
@@ -170,7 +170,7 @@ function myFunction">
 
   <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#规则"><span class="toc-text">规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分号"><span class="toc-text">分号</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#规则"><span class="toc-text">规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分号"><span class="toc-text">分号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
   </div>
 
 
@@ -303,6 +303,7 @@ function myFunction">
 <figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">// ✓ ok</span></div><div class="line">;(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">window</span>.alert(<span class="string">'ok'</span>)</div><div class="line">&#125;())</div><div class="line"></div><div class="line"><span class="comment">// ✗ avoid</span></div><div class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">window</span>.alert(<span class="string">'ok'</span>)</div><div class="line">&#125;())</div></pre></td></tr></table></figure>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">// ✓ ok</span></div><div class="line">;[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].forEach(bar)</div><div class="line"></div><div class="line"><span class="comment">// ✗ avoid</span></div><div class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].forEach(bar)</div></pre></td></tr></table></figure>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="comment">// ✓ ok</span></div><div class="line">;<span class="string">`hello`</span>.indexOf(<span class="string">'o'</span>)</div><div class="line"></div><div class="line"><span class="comment">// ✗ avoid</span></div><div class="line"><span class="string">`hello`</span>.indexOf(<span class="string">'o'</span>)</div></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>其实在工作中，大部分时间我们都在阅读代码然后再开始写代码，当看到乱七八糟的代码的时候肯定都不想看了。所以，从一开始养成好的代码习惯，方便自己，也方便他人的阅读：）</p>
 
     
   </div>
