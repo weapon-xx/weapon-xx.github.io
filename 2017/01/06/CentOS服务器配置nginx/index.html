@@ -15,16 +15,33 @@
     <meta name="keywords" content="weapon-xx,前端,后端,设计,nodejs,JavaScript,ruby" />
   
 
-  <meta name="description" content="前言在上家公司的时候，就干过服务器环境搭建、项目部署、数据备份等等这些工作，不禁感叹后端的技术栈又广又深，需要花费很多时间去实践总结，最近从同学那要了服务器，准备从零开始服务器的搭建。">
+  <meta name="description" content="前言在上家公司的时候，就干过服务器环境搭建、项目部署、数据备份等等这些工作，不禁感叹后端的技术栈又广又深，需要花费很多时间去实践总结，最近从同学那要了服务器，准备从零开始服务器的搭建。
+
+环境：CentOS 6
+
+一、进入到服务器中，安装编译工具及库文件
+yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-dev">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CentOS服务器配置nginx">
 <meta property="og:url" content="http://yoursite.com/2017/01/06/CentOS服务器配置nginx/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="前言在上家公司的时候，就干过服务器环境搭建、项目部署、数据备份等等这些工作，不禁感叹后端的技术栈又广又深，需要花费很多时间去实践总结，最近从同学那要了服务器，准备从零开始服务器的搭建。">
-<meta property="og:updated_time" content="2017-01-06T07:32:56.000Z">
+<meta property="og:description" content="前言在上家公司的时候，就干过服务器环境搭建、项目部署、数据备份等等这些工作，不禁感叹后端的技术栈又广又深，需要花费很多时间去实践总结，最近从同学那要了服务器，准备从零开始服务器的搭建。
+
+环境：CentOS 6
+
+一、进入到服务器中，安装编译工具及库文件
+yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-dev">
+<meta property="og:image" content="http://yoursite.com/images/nginx_index.png">
+<meta property="og:updated_time" content="2017-01-09T11:23:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CentOS服务器配置nginx">
-<meta name="twitter:description" content="前言在上家公司的时候，就干过服务器环境搭建、项目部署、数据备份等等这些工作，不禁感叹后端的技术栈又广又深，需要花费很多时间去实践总结，最近从同学那要了服务器，准备从零开始服务器的搭建。">
+<meta name="twitter:description" content="前言在上家公司的时候，就干过服务器环境搭建、项目部署、数据备份等等这些工作，不禁感叹后端的技术栈又广又深，需要花费很多时间去实践总结，最近从同学那要了服务器，准备从零开始服务器的搭建。
+
+环境：CentOS 6
+
+一、进入到服务器中，安装编译工具及库文件
+yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-dev">
+<meta name="twitter:image" content="http://yoursite.com/images/nginx_index.png">
 
   
 
@@ -134,7 +151,7 @@
 
   <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一、进入到服务器中，安装编译工具及库文件"><span class="toc-text">一、进入到服务器中，安装编译工具及库文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、安装-PCRE，让-Ngnix-支持-Rewrite-功能"><span class="toc-text">二、安装 PCRE，让 Ngnix 支持 Rewrite 功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、安装nginx"><span class="toc-text">三、安装nginx</span></a></li></ol>
   </div>
 
 
@@ -181,6 +198,69 @@
   <div class="article-content">
     
       <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在上家公司的时候，就干过服务器环境搭建、项目部署、数据备份等等这些工作，不禁感叹后端的技术栈又广又深，需要花费很多时间去实践总结，最近从同学那要了服务器，准备从零开始服务器的搭建。</p>
+<blockquote>
+<p>环境：CentOS 6</p>
+</blockquote>
+<h3 id="一、进入到服务器中，安装编译工具及库文件"><a href="#一、进入到服务器中，安装编译工具及库文件" class="headerlink" title="一、进入到服务器中，安装编译工具及库文件"></a>一、进入到服务器中，安装编译工具及库文件</h3><blockquote>
+<p>yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-devel</p>
+</blockquote>
+<h3 id="二、安装-PCRE，让-Ngnix-支持-Rewrite-功能"><a href="#二、安装-PCRE，让-Ngnix-支持-Rewrite-功能" class="headerlink" title="二、安装 PCRE，让 Ngnix 支持 Rewrite 功能"></a>二、安装 PCRE，让 Ngnix 支持 Rewrite 功能</h3><ul>
+<li><p>下载 PCRE 包</p>
+<blockquote>
+<p>wget <a href="http://downloads.sourceforge.net/project/pcre/pcre/8.35/pcre-8.35.tar.gz" target="_blank" rel="external">http://downloads.sourceforge.net/project/pcre/pcre/8.35/pcre-8.35.tar.gz</a></p>
+</blockquote>
+</li>
+<li><p>解压安装包</p>
+<blockquote>
+<p>tar zxvf pcre-8.35.tar.gz</p>
+</blockquote>
+</li>
+<li><p>进入安装包目录</p>
+<blockquote>
+<p>cd pcre-8.35</p>
+</blockquote>
+</li>
+<li><p>编译安装</p>
+<blockquote>
+<p>./configure<br>make &amp;&amp; make install</p>
+</blockquote>
+</li>
+<li><p>查看pcre版本</p>
+<blockquote>
+<p>pcre-config –version</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="三、安装nginx"><a href="#三、安装nginx" class="headerlink" title="三、安装nginx"></a>三、安装nginx</h3><ul>
+<li><p>下载 nginx 包</p>
+<blockquote>
+<p>wget <a href="http://nginx.org/download/nginx-1.6.2.tar.gz" target="_blank" rel="external">http://nginx.org/download/nginx-1.6.2.tar.gz</a></p>
+</blockquote>
+</li>
+<li><p>解压安装包</p>
+<blockquote>
+<p>tar zxvf nginx-1.6.2.tar.gz<br>/usr/local/webserver/nginx/sbin/nginx -v</p>
+</blockquote>
+</li>
+<li><p>进入安装包目录</p>
+<blockquote>
+<p>cd nginx-1.6.2</p>
+</blockquote>
+</li>
+<li><p>编译安装</p>
+<blockquote>
+<p>./configure –prefix=/usr/local/webserver/nginx –with-http_stub_status_module –with-http_ssl_module –with-pcre=/usr/local/src/pcre-8.35<br>make &amp;&amp; make install</p>
+</blockquote>
+</li>
+</ul>
+<p>ps: –with-pcre 对应的是 PCRE 包的解压目录</p>
+<ul>
+<li>nginx 命令<blockquote>
+<p>查看版本：/usr/local/webserver/nginx/sbin/nginx -v<br>测试配置：/usr/local/webserver/nginx/sbin/nginx -v<br>启动：/usr/local/webserver/nginx/sbin/nginx<br>关闭：/usr/local/webserver/nginx/sbin/nginx -s stop<br>重启：/usr/local/webserver/nginx/sbin/nginx -s reload</p>
+</blockquote>
+</li>
+</ul>
+<p>至此，nginx安装完成，在浏览器访问服务器的ip地址，会出现以下页面：<br><img src="/images/nginx_index.png" alt="nginx index"></p>
 
     
   </div>
