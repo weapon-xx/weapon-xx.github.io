@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>CentOS服务器配置nginx | Hexo</title>
+  <title>CentOS服务器配置nginx | Weapon-x&#39;s blog</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,32 +15,29 @@
     <meta name="keywords" content="weapon-xx,前端,后端,设计,nodejs,JavaScript,ruby" />
   
 
-  <meta name="description" content="前言在上家公司的时候，就干过服务器环境搭建、项目部署、数据备份等等这些工作，不禁感叹后端的技术栈又广又深，需要花费很多时间去实践总结，最近从同学那要了服务器，准备从零开始服务器的搭建。
+  <meta name="description" content="Nginx
+Nginx是一款面向性能设计的HTTP服务器，相较于Apache、lighttpd具有占有内存少，稳定性高等优势，它能反向代理HTTP, HTTPS, SMTP, POP3, IMAP的协议链接，以及一个负载均衡器和一个HTTP缓存。
 
-环境：CentOS 6
-
-一、进入到服务器中，安装编译工具及库文件
-yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-dev">
+与node.js一样采用了异步IO的设计理念，充分使用了异步逻辑，削减了上下文调度开销，所以并发服务能力更强。nginx整体采用模块化设计，有丰富的模">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CentOS服务器配置nginx">
 <meta property="og:url" content="http://yoursite.com/2017/01/06/CentOS服务器配置nginx/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="前言在上家公司的时候，就干过服务器环境搭建、项目部署、数据备份等等这些工作，不禁感叹后端的技术栈又广又深，需要花费很多时间去实践总结，最近从同学那要了服务器，准备从零开始服务器的搭建。
+<meta property="og:site_name" content="Weapon-x's blog">
+<meta property="og:description" content="Nginx
+Nginx是一款面向性能设计的HTTP服务器，相较于Apache、lighttpd具有占有内存少，稳定性高等优势，它能反向代理HTTP, HTTPS, SMTP, POP3, IMAP的协议链接，以及一个负载均衡器和一个HTTP缓存。
 
-环境：CentOS 6
-
-一、进入到服务器中，安装编译工具及库文件
-yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-dev">
+与node.js一样采用了异步IO的设计理念，充分使用了异步逻辑，削减了上下文调度开销，所以并发服务能力更强。nginx整体采用模块化设计，有丰富的模">
 <meta property="og:image" content="http://yoursite.com/images/nginx_index.png">
-<meta property="og:updated_time" content="2017-01-10T01:19:00.000Z">
+<meta property="og:image" content="http://yoursite.com/images/proxy.png">
+<meta property="og:image" content="http://yoursite.com/images/502.png">
+<meta property="og:image" content="http://yoursite.com/images/tecent_cloud_config.png">
+<meta property="og:updated_time" content="2017-01-16T07:39:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CentOS服务器配置nginx">
-<meta name="twitter:description" content="前言在上家公司的时候，就干过服务器环境搭建、项目部署、数据备份等等这些工作，不禁感叹后端的技术栈又广又深，需要花费很多时间去实践总结，最近从同学那要了服务器，准备从零开始服务器的搭建。
+<meta name="twitter:description" content="Nginx
+Nginx是一款面向性能设计的HTTP服务器，相较于Apache、lighttpd具有占有内存少，稳定性高等优势，它能反向代理HTTP, HTTPS, SMTP, POP3, IMAP的协议链接，以及一个负载均衡器和一个HTTP缓存。
 
-环境：CentOS 6
-
-一、进入到服务器中，安装编译工具及库文件
-yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-dev">
+与node.js一样采用了异步IO的设计理念，充分使用了异步逻辑，削减了上下文调度开销，所以并发服务能力更强。nginx整体采用模块化设计，有丰富的模">
 <meta name="twitter:image" content="http://yoursite.com/images/nginx_index.png">
 
   
@@ -151,7 +148,7 @@ yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-dev">
 
   <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一、进入到服务器中，安装编译工具及库文件"><span class="toc-text">一、进入到服务器中，安装编译工具及库文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、安装-PCRE，让-Ngnix-支持-Rewrite-功能"><span class="toc-text">二、安装 PCRE，让 Ngnix 支持 Rewrite 功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、安装nginx"><span class="toc-text">三、安装nginx</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Nginx"><span class="toc-text">Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一、进入到服务器中，安装编译工具及库文件"><span class="toc-text">一、进入到服务器中，安装编译工具及库文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、安装-PCRE，让-Ngnix-支持-Rewrite-功能"><span class="toc-text">二、安装 PCRE，让 Ngnix 支持 Rewrite 功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、安装nginx"><span class="toc-text">三、安装nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、反向代理"><span class="toc-text">四、反向代理</span></a></li></ol>
   </div>
 
 
@@ -197,10 +194,10 @@ yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-dev">
 
   <div class="article-content">
     
-      <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在上家公司的时候，就干过服务器环境搭建、项目部署、数据备份等等这些工作，不禁感叹后端的技术栈又广又深，需要花费很多时间去实践总结，最近从同学那要了服务器，准备从零开始服务器的搭建。</p>
-<blockquote>
-<p>环境：CentOS 6</p>
+      <h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><blockquote>
+<p>Nginx是一款面向性能设计的HTTP服务器，相较于Apache、lighttpd具有占有内存少，稳定性高等优势，它能反向代理HTTP, HTTPS, SMTP, POP3, IMAP的协议链接，以及一个负载均衡器和一个HTTP缓存。</p>
 </blockquote>
+<p>与node.js一样采用了异步IO的设计理念，充分使用了异步逻辑，削减了上下文调度开销，所以并发服务能力更强。nginx整体采用模块化设计，有丰富的模块库和第三方模块库，配置灵活。</p>
 <h3 id="一、进入到服务器中，安装编译工具及库文件"><a href="#一、进入到服务器中，安装编译工具及库文件" class="headerlink" title="一、进入到服务器中，安装编译工具及库文件"></a>一、进入到服务器中，安装编译工具及库文件</h3><blockquote>
 <p>yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-devel</p>
 </blockquote>
@@ -261,6 +258,41 @@ yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-dev">
 </li>
 </ul>
 <p>至此，nginx安装完成，在浏览器访问服务器的ip地址，会出现以下页面：<br><img src="/images/nginx_index.png" alt="nginx index"></p>
+<h3 id="四、反向代理"><a href="#四、反向代理" class="headerlink" title="四、反向代理"></a>四、反向代理</h3><p>反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。</p>
+<p>反向代理服务器，对于客户端而言它就像是原始服务器，并且客户端不需要进行任何特别的设置。客户端向反向代理的命名空间(name-space)中的内容发送普通请求，接着反向代理将判断向何处(原始服务器)转交请求，并将获得的内容返回给客户端，就像这些内容原本就是它自己的一样。如下图所示：<br><img src="/images/proxy.png" alt="reverse proxy"></p>
+<ul>
+<li>增加代理配置，进入到<em>/usr/local/webserver/nginx/conf/</em> 目录下:<blockquote>
+<p>sudo vi nginx.conf</p>
+</blockquote>
+</li>
+</ul>
+<p>添加以下代码到http模块中，伪代码如下:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">http&#123;</div><div class="line">  server &#123;</div><div class="line">        listen 8080;</div><div class="line">        server_name 服务器公网IP;</div><div class="line">        location / &#123;</div><div class="line">           proxy_pass http://127.0.0.1:3000;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>重启服务器:<blockquote>
+<p>/usr/local/webserver/nginx/sbin/nginx -s reload</p>
+</blockquote>
+</li>
+</ul>
+<p>确认监听8080端口:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">[root@VM_102_32_centos conf]# netstat -anp | grep 8080</div><div class="line">tcp        0      0 0.0.0.0:8080                0.0.0.0:*                   LISTEN      1235/nginx</div><div class="line">tcp        0      0 10.104.102.32:8080          121.34.152.86:13140         ESTABLISHED 5596/nginx</div><div class="line">tcp        0      0 10.104.102.32:8080          121.34.152.86:13145         ESTABLISHED 5596/nginx</div></pre></td></tr></table></figure></p>
+<ul>
+<li>开放防火墙8080端口，进入 <em>/etc/sysconfig/</em> 目录下<blockquote>
+<p>sudo vi iptables</p>
+</blockquote>
+</li>
+</ul>
+<p>添加8080端口:</p>
+<blockquote>
+<p>-A INPUT -p tcp -m state –state NEW -m tcp –dport 8000 -j ACCEPT</p>
+</blockquote>
+<p>重启防火墙:</p>
+<blockquote>
+<p>service iptables restart</p>
+</blockquote>
+<p>确认防火墙状态:<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">[root@VM_102_32_centos sysconfig]# service iptables status</div><div class="line">Table: filter</div><div class="line">Chain INPUT (policy ACCEPT)</div><div class="line">num  target     prot opt source               destination</div><div class="line">1    ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:8000</div><div class="line"></div><div class="line">Chain FORWARD (policy ACCEPT)</div><div class="line">num  target     prot opt source               destination</div><div class="line"></div><div class="line">Chain OUTPUT (policy ACCEPT)</div><div class="line">num  target     prot opt source               destination</div></pre></td></tr></table></figure></p>
+<ul>
+<li>在浏览器输入 <em>公网ip:8080</em> ，可以看到以下提示，说明反向代理成功了:<br><img src="/images/502.png" alt="502"><br>只要在3000端口跑起应用，nginx就能代理到8080端口了 Congratulation :D</li>
+</ul>
+<p>PS:如果是使用腾讯云服务器，需要在后台将端口添加到安全组，入站开放8080端口，出站全开:<br><img src="/images/tecent_cloud_config.png" alt="安全组配置规则"></p>
 
     
   </div>
